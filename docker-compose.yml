@@ -1,0 +1,25 @@
+version: "3.9"
+services:
+  api:
+    build: ./backend
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend/data:/app/data
+    environment:
+      - PYTHONUNBUFFERED=1
+    networks:
+      - healthcare-network
+
+  frontend:
+    build: .
+    ports:
+      - "80:80"
+    depends_on:
+      - api
+    networks:
+      - healthcare-network
+
+networks:
+  healthcare-network:
+    driver: bridge
